@@ -65,7 +65,6 @@ export class obstacleCtr extends Component {
         const { sRaduis, sPercent, nRaduis, nPercent, lRaduis } = DataManager.obsSetting;
         for(let i = 0; i < n; i++) {
             const com = this.getObstacleByPool();
-            this.obstacleList.push(com);
             let radius, baseRad, ang, x, y, r;
 
             if(i <= sPercent * n) { baseRad = sRaduis }
@@ -78,11 +77,12 @@ export class obstacleCtr extends Component {
             r = Math.random() * (DataManager.wallRadius - DataManager.minRaduis * 2 - radius - radius),
             x = (n + radius + r) * Math.sin(ang),
             y = (n + radius + r) * Math.cos(ang);
+
             let info = {
                 type : SETTING.BALL_TYPE.OBSTACLE,
                 radius,
-                color : SETTING.BALL_COLOR.RADIUS_NORMAL,
-                position : { x, y },
+                color: Utils.getObstacleColor(radius, DataManager.playerSetting.radius),
+                position : new Vec3(x, y, 1),
             }
             this.setObsStatus(com, info);
         }
@@ -102,7 +102,14 @@ export class obstacleCtr extends Component {
 
     protected setObsStatus(com: obstaclePrefab, status: SETTING.BALL_INFO) {
         com.startActive(status)
+        this.obstacleList.push(com);
         this.baseNode?.addChild(com.node);
+    }
+
+    private changeGroupColor() {
+        this.obstacleList.forEach(item => {
+            item.changeSpframe(Utils.getObstacleColor(item.radius, DataManager.playerSetting.radius))
+        })
     }
 
     // 重置
@@ -114,6 +121,8 @@ export class obstacleCtr extends Component {
     }
 
     update(deltaTime: number) {
-
+        if(this.obstacleList.length > 0) {
+            this.changeGroupColor();
+        }
     }
 }

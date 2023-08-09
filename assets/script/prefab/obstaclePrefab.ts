@@ -26,7 +26,7 @@ export class obstaclePrefab extends baseBallPrefab {
             Math.random() * this.baseRate - this.baseRate / 2
         )
         this.initAttribute(info);
-        this.initBallStatus();
+        if(!info.velocity) this.initBallStatus();
         this.ballcollider.on(Contact2DType.STAY_CONTACT, this.onStayContact, this);
         this.ballcollider.on(Contact2DType.END_CONTACT, this.onEndontact, this);
         this.node.active = true;
@@ -44,9 +44,6 @@ export class obstaclePrefab extends baseBallPrefab {
 
     private initBallStatus() {
         this.ballRigid.linearVelocity = new Vec2(this.velocity.x , this.velocity.y);
-        // setTimeout(() => {
-        //     this.ballRigid.linearVelocity = new Vec2();
-        // }, 3000)
     }
 
     private onStayContact(selfCollider: CircleCollider2D, otherCollider: CircleCollider2D, contact: IPhysics2DContact | null): void {
@@ -66,6 +63,7 @@ export class obstaclePrefab extends baseBallPrefab {
     private onEndontact(): void {
         this.expanSpeed = 0;
         this.obsStatus = SETTING.OBSTACLE_STATUS.NOTHING;
+        this.changeradius(this.radius);
     }
 
     private recycleSelf(): void {
@@ -79,13 +77,10 @@ export class obstaclePrefab extends baseBallPrefab {
             this.recycleSelf();
             return;
         }
-        // if(this.obsStatus !== SETTING.OBSTACLE_STATUS.NOTHING) {
-            // this.changeradius(this.radius + this.expanSpeed * this.obsStatus);
-            // this.obsStatus = SETTING.OBSTACLE_STATUS.NOTHING;
-        // } 
         this.distance = Utils.caculateDistance(this.node.position) + this.radius;
         if((this.distance >= DataManager.wallRadius)) {
             this.changeVelocity();
         }
+        this.updateBase(deltaTime);
     }
 }

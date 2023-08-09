@@ -1,3 +1,5 @@
+import { Vec2, Vec3 } from "cc";
+
 export namespace SETTING {
     //<===================================> Debug <===================================>
     export const LOG = (mes: any, ...opts: any) => {
@@ -86,6 +88,15 @@ export namespace SETTING {
         { total: 120, sRaduis: 30, sPercent: 0.5,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
         { total: 140, sRaduis: 30, sPercent: 0.45, nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
         { total: 180, sRaduis: 30, sPercent: 0.4,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
+        { total: 200, sRaduis: 30, sPercent: 0.4,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
+    ]
+    export const PLAYER_GROUP: PLAYER_SETTING[] = [
+        { radius: 10, status: PLAYER_STATUS.NOTHING },
+        { radius: 10, status: PLAYER_STATUS.NOTHING },
+        { radius: 10, status: PLAYER_STATUS.NOTHING },
+        { radius: 10, status: PLAYER_STATUS.NOTHING },
+        { radius: 10, status: PLAYER_STATUS.NOTHING },
+        { radius: 10, status: PLAYER_STATUS.NOTHING },
     ]
     export const WALL_RADIUS_GROUP: WALL_RADIUS[] = [
         WALL_RADIUS.WALL_LEVEL_1,
@@ -100,8 +111,8 @@ export namespace SETTING {
         type      : BALL_TYPE,
         radius    : number,
         color     : BALL_COLOR,
-        position  : { x: number, y: number },
-        velocity ?: { x: number, y: number },
+        position  : Vec3,
+        velocity ?: Vec2,
     }
 
     export type OBSTACLE_SETTING = {
@@ -113,8 +124,17 @@ export namespace SETTING {
         readonly lRaduis     : number;
     }
 
+    export interface PLAYER_SETTING {
+        radius      : number,
+        status     ?: SETTING.PLAYER_STATUS,
+    }
+
     export type LEVEL_SETTING = {
         obstacleSetting   : OBSTACLE_SETTING;
         wallRadius        : WALL_RADIUS;
+    }
+    interface VEC2 {
+        x: number
+        y: number
     }
 }

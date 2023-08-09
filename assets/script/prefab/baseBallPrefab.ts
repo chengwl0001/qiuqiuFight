@@ -24,6 +24,7 @@ export class baseBallPrefab extends Component {
 
     protected expanSpeed: number = 0;
     protected distance: number = 0;
+    private dRadius: number = 0;
     initCompoent() {
         this.bg = this.node.getChildByName('bg');
         this.ballcollider = this.node.getComponent(CircleCollider2D);
@@ -34,10 +35,15 @@ export class baseBallPrefab extends Component {
     }
 
     protected initAttribute(info: SETTING.BALL_INFO) {
-        this.setPhysicalSetting();
         this.ballType = info.type;
+        this.dRadius = info.radius;
         this.node.setPosition(info.position.x, info.position.y, 1);
-        this.changeradius(info.radius);
+
+        if(info.velocity) {
+            this.setVolocity(info.velocity);
+        }
+        this.setPhysicalSetting();
+        this.setRaduius(info.radius);
         this.changeSpframe(info.color);
     }
 
@@ -48,11 +54,11 @@ export class baseBallPrefab extends Component {
         this.ballRigid.linearDamping = DataManager.linerDamping;
     }
 
-    protected changeSpframe(i: number) {
+    public changeSpframe(i: number) {
         this.bgSprite.spriteFrame = this.spFrame[i];
     }
 
-    protected setColor(color: Color): void {
+    public setColor(color: Color): void {
         this.bgSprite.color.set(color);
     }
 
@@ -67,7 +73,11 @@ export class baseBallPrefab extends Component {
         let angle_from_origin = Utils.angleForVector(pX, pY);
         let veloc_ang = Utils.angleForVector(vX, vY);
         let new_veloc_ang = Math.PI + angle_from_origin + (angle_from_origin - veloc_ang);
-        this.ballRigid.linearVelocity = new Vec2(cell_speed * Math.cos(new_veloc_ang) , cell_speed * Math.sin(new_veloc_ang));
+        this.setVolocity(new Vec2(cell_speed * Math.cos(new_veloc_ang) , cell_speed * Math.sin(new_veloc_ang)))
+    }
+
+    private setVolocity(v: Vec2) {
+        this.ballRigid.linearVelocity = v;
     }
 
     protected transferMass(r1, r2, distance): void {
@@ -79,24 +89,31 @@ export class baseBallPrefab extends Component {
 		}
 		
 		let overlap = (smaller + bigger - distance) / (2 * smaller);
-		if (overlap > 1) overlap = 1;
+		if (overlap > 1.5) overlap = 1.5;
 		overlap *= overlap;
-		this.expanSpeed = overlap * smaller * smaller * DataManager.absorbCalibration / (2 * this.radius);
+		this.expanSpeed = overlap * smaller * smaller / (2 * this.radius);
         // this.expanSpeed < DataManager.minAbsorbSpeed && (this.expanSpeed = DataManager.minAbsorbSpeed);
 	}
 
-    protected changeradius(r: number):void {
+    protected changeradius(val: number):void {
+        this.dRadius = val;
+    }
+
+    private setRaduius(r: number): void {
         this.radius = r;
         this.ballTrans.width = this.ballTrans.height = r * 2;
         this.bgTrans.width = this.bgTrans.height = r * 2;
 
         this.ballcollider.radius = r;
         this.ballcollider.apply();
-
-        // this.labelText.fontSize = Math.floor(r / 5 + 5);
-        // this.labelText.string = (Math.floor(r * 100) / 100).toString();
     }
-    update(deltaTime: number) {
+
+    protected updateBase(deltaTime: number) {
+        if(this.dRadius !== this.radius) {
+            let change = this.dRadius - this.radius;
+            change = Math.abs(change) < 0.1 ? change : change * deltaTime * 3;
+            this.setRaduius(this.radius + change);
+        }
     }
 }
 

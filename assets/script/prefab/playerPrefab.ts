@@ -49,13 +49,15 @@ export class playerPrefab extends baseBallPrefab {
         } else if(selfCollider.radius > otherCollider.radius) {
             this.pStatus = SETTING.PLAYER_STATUS.ABSORB;
         }
-
+        DataManager.playerSetting.status = this.pStatus;
         this.transferMass(selfCollider.radius, otherCollider.radius, distance);
         this.changeradius(this.radius + this.expanSpeed * this.pStatus);
     }
     private onEndontact(): void {
         this.expanSpeed = 0;
         this.pStatus = SETTING.PLAYER_STATUS.NOTHING;
+        this.changeradius(this.radius);
+        DataManager.playerSetting.status = this.pStatus;
     }
 
     public setImpulse(impulse: Vec2): void {
@@ -64,6 +66,8 @@ export class playerPrefab extends baseBallPrefab {
 
     protected recycleSelf(): void {
         this.node.active = false;
+        this.pStatus = SETTING.PLAYER_STATUS.NOTHING;
+        DataManager.playerSetting.status = this.pStatus;
     }
 
     update(deltaTime: number) {
@@ -72,14 +76,12 @@ export class playerPrefab extends baseBallPrefab {
             this.recycleSelf();
             return;
         }
-        // if(this.pStatus !== SETTING.PLAYER_STATUS.NOTHING) {
-        //     this.changeradius(this.radius + this.expanSpeed * this.pStatus);
-        //     this.pStatus = SETTING.PLAYER_STATUS.NOTHING;
-        // } 
         this.distance = Utils.caculateDistance(this.node.position) + this.radius;
         if((this.distance >= DataManager.wallRadius)) {
             this.changeVelocity();
         }
+        this.updateBase(deltaTime);
+        DataManager.playerSetting.radius = this.radius;
     }
 }
 

@@ -8,14 +8,16 @@ export default class GameMgr {
     private gGameLevel           : SETTING.GAME_LEVEL       = SETTING.GAME_LEVEL.LEVEL_1;
     private gWallRadius          : SETTING.WALL_RADIUS      = SETTING.WALL_RADIUS.WALL_LEVEL_1;
     private gObsSetting          : SETTING.OBSTACLE_SETTING = SETTING.OBSTACLE_GROUP[0];
+    private gPlayerSetting       : SETTING.PLAYER_SETTING   = SETTING.PLAYER_GROUP[0];
 
     private gLinerDamping        : number                   = 0.15;
-    private gImpulseFactor       : number                   = 0.001;
+    private gImpulseFactor       : number                   = 0.5;
 
-    private gAbsorbCalibration   : number                   = 0.5;
-    private gMinRaduis           : number                   = 1;
+    private gLossPercent         : number                   = 1/50;
+
+    private gAbsorbCalibration   : number                   = 1;
+    private gMinRaduis           : number                   = 1.5;
     private gMinAbsorbSpeed      : number                   = 0.1;
-    private gAbsorbPercent       : number                   = 0.01;
 
     private gCameraTweenDuration : number                   = 1;
 
@@ -43,16 +45,19 @@ export default class GameMgr {
     get obsSetting() { return this.gObsSetting };
     set obsSetting(val: SETTING.OBSTACLE_SETTING) { this.gObsSetting = val };
 
+    get playerSetting() { return this.gPlayerSetting };
+    set playerSetting(val: SETTING.PLAYER_SETTING) { this.gPlayerSetting = val };
+
     get gameStatus() { return this.gGameStatus };
     set gameStatus(val: SETTING.GAME_STATUS) { this.gGameStatus = val };
 
     get linerDamping() { return this.gLinerDamping };
     get impulseFactor() { return this.gImpulseFactor };
+    get lossPercent() { return this.gLossPercent };
 
     get absorbCalibration() { return this.gAbsorbCalibration };
     get minRaduis() { return this.gMinRaduis };
     get minAbsorbSpeed() { return this.gMinAbsorbSpeed };
-    get absorbPercent() { return this.gAbsorbPercent };
     get cameraTweenDuration() { return this.gCameraTweenDuration };
 
 }

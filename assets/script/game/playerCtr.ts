@@ -43,29 +43,31 @@ export class playerCtr extends obstacleCtr {
     private impulseBall(dir: Vec2): void {
         if(!this.playerBall.active) return;
 
+        let v = dir.clone();
         let pRadius = this.playerCom.radius;
-        let changeMass = pRadius * pRadius * Math.PI;
-        let nodePos = this.playerCom.node.position;
 
-        let v = dir.multiplyScalar(changeMass).multiplyScalar(DataManager.impulseFactor);
-
-        changeMass *= DataManager.impulseFactor;
-        changeMass = Math.sqrt(changeMass / Math.PI);
-        console.log(changeMass)
-
-        let v2 = dir.multiplyScalar(pRadius + 1);
-        let pos = new Vec3(nodePos.x + v2.x, nodePos.y + v2.y, 1);
-
+        v.multiplyScalar(DataManager.impulseFactor);
         this.playerCom.setImpulse(v);
-        this.gameCtr.obstacleCtr.setBullet(pos, changeMass, v) 
+
+        let changeMass = pRadius * pRadius * Math.PI * DataManager.lossPercent;
+        let nodePos = this.playerCom.node.position;
+        let selfChangeRadius = changeMass / (2 * Math.PI * pRadius);
+
+        let newRadius = Math.sqrt(changeMass / Math.PI);
+        let v2 = dir.clone().multiplyScalar(pRadius + newRadius + 0.5);
+        let pos = new Vec3(nodePos.x - v2.x, nodePos.y - v2.y, 1);
+
+        newRadius = newRadius < DataManager.minRaduis ? DataManager.minRaduis : newRadius;
+
+        this.gameCtr.obstacleCtr.setBullet(pos, newRadius, new Vec2(-dir.x, -dir.y))
     }
 
     private setPlayerByLevel() {
         this.playerCom.startActive({
             type: SETTING.BALL_TYPE.PLAYER,
-            radius: 10,
+            radius: DataManager.playerSetting.radius,
             color: SETTING.BALL_COLOR.RADIUS_NORMAL,
-            position: { x: 0, y: 0 }
+            position: new Vec3()
         })
         this.baseNode?.addChild(this.playerBall);
     }
@@ -80,7 +82,6 @@ export class playerCtr extends obstacleCtr {
     }
 
     update(deltaTime: number) {
-        
     }
 }
 

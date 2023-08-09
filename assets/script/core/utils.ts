@@ -25,7 +25,18 @@ const Utils =  {
 
     setSettingByLevel(level: SETTING.GAME_LEVEL): void {
         DataManager.wallRadius = SETTING.WALL_RADIUS_GROUP[level];
-        DataManager.obsSetting = SETTING.OBSTACLE_GROUP[level];
-    }
+        DataManager.obsSetting = {...SETTING.OBSTACLE_GROUP[level]};
+        DataManager.playerSetting = {...SETTING.PLAYER_GROUP[level]};
+    },
+
+    getObstacleColor(self: number, player: number): SETTING.BALL_COLOR {
+        if(self > player) {
+            return SETTING.BALL_COLOR.RADIUS_ERROR;
+        } else if((player - self) < 2) {
+            return SETTING.BALL_COLOR.RADIUS_WARNING;
+        } else {
+            return SETTING.BALL_COLOR.RADIUS_NORMAL
+        }
+    },
 }
 export default Utils;
