@@ -81,6 +81,17 @@ export namespace SETTING {
         SPEED_4 = 2,
     }
 
+    export enum CAMERA_CHANGE_TYPE {
+        BY_TWEEN,
+        BY_DIF,
+    }
+
+    export enum GAME_EVENT_TYPE {
+        GAME_START = 'gameStart',
+        GAME_PAUSE = 'gamePause',
+        GAME_OVER = 'gameOver',
+    }
+
     //<===================================> Const <===================================>
     export const OBSTACLE_GROUP: OBSTACLE_SETTING[] = [
         { total: 80,  sRaduis: 30, sPercent: 0.6,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },

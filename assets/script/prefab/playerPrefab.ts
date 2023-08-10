@@ -2,7 +2,7 @@ import { _decorator, Contact2DType, CircleCollider2D, IPhysics2DContact, Vec2 } 
 import { baseBallPrefab } from './baseBallPrefab';
 import { SETTING } from '../core/gameSetting';
 import { playerCtr } from '../game/playerCtr';
-import { DataManager } from '../core/global';
+import { DataManager, EventManager } from '../core/global';
 import Utils from '../core/utils';
 
 const { ccclass, menu, property } = _decorator;
@@ -87,7 +87,8 @@ export class playerPrefab extends baseBallPrefab {
     update(deltaTime: number) {
         if(!this.node.active) return;
         if(this.radius < DataManager.minRaduis) {
-            this.recycleSelf();
+            EventManager.emit(SETTING.GAME_EVENT_TYPE.GAME_OVER);
+            // this.recycleSelf();
             return;
         }
         this.distance = Utils.caculateDistance(this.node.position) + this.radius;

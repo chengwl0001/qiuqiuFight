@@ -1,6 +1,7 @@
 import { _decorator, Component, Camera, Vec3, Node, tween } from 'cc';
 import Utils from '../core/utils';
 import { DataManager } from '../core/global';
+import { SETTING } from '../core/gameSetting';
 const { ccclass, property } = _decorator;
 
 @ccclass('cameraCtr')
@@ -30,16 +31,16 @@ export class cameraCtr extends Component {
         this.targetNode = null;
     }
 
-    public changeCameraHeight(dif: number, type: number = 0): void {
+    public changeCameraHeight(dif: number, type: SETTING.CAMERA_CHANGE_TYPE = SETTING.CAMERA_CHANGE_TYPE.BY_TWEEN): void {
         let current = this.cameraCom.orthoHeight;
         if(dif > 0 && current >= DataManager.maxOrthoHeight) return;
         if(dif < 0 && current <= DataManager.minOrthoHeight) return;
 
-        if(type === 0) {
+        if(type === SETTING.CAMERA_CHANGE_TYPE.BY_TWEEN) {
             let orthoHeight = current * (1 + 0.2 * (dif > 0 ? 1 : -1));
             orthoHeight = Math.min(DataManager.maxOrthoHeight, Math.max(orthoHeight, DataManager.minOrthoHeight));
             this.startScaleTween(orthoHeight);
-        } else if(type === 1) {
+        } else if(type === SETTING.CAMERA_CHANGE_TYPE.BY_DIF) {
             if((dif < 0 && this.targetOH > current) || (dif > 0 && this.targetOH < current)) {
                 this.targetOH = current;
             }

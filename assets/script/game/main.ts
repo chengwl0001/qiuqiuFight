@@ -1,11 +1,11 @@
-import { _decorator, Component, Input, EventTouch, Vec2, Vec3, view } from 'cc';
+import { _decorator, Component, view } from 'cc';
 import { obstacleCtr } from './obstacleCtr';
 import { playerCtr } from './playerCtr';
 import { wallCtr } from './wallCtr';
 import { cameraCtr } from './cameraCtr';
 import { SETTING } from '../core/gameSetting';
 import Utils from '../core/utils';
-import { DataManager } from '../core/global';
+import { DataManager, EventManager } from '../core/global';
 import { phyiscalCtr } from './phyiscalCtr';
 import { clickCtr } from './clickCtr';
 
@@ -49,6 +49,8 @@ export class main extends Component {
     private gameStart(): void {
         Utils.initLog('game start');
         Utils.setSettingByLevel(DataManager.gameLevel);
+
+        EventManager.once(SETTING.GAME_EVENT_TYPE.GAME_OVER, this.gameOver, this);
 
         DataManager.gameStatus = SETTING.GAME_STATUS.GAMING;
         this.obstacleCtr?.startGame();
