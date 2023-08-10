@@ -35,6 +35,10 @@ export class playerCtr extends obstacleCtr {
         this.setPlayerByLevel();
     }
 
+    public endGame(): void {
+        this.playerCom.recycleSelf();
+    }
+
     public clickEvent(point: Vec2): void {
         let dir = new Vec2(this.viewCenter.x - point.x, this.viewCenter.y - point.y);
         this.impulseBall(dir.normalize())

@@ -21,12 +21,15 @@ export class obstaclePrefab extends baseBallPrefab {
     private obsStatus: SETTING.OBSTACLE_STATUS = SETTING.OBSTACLE_STATUS.NOTHING;
 
     public startActive(info: SETTING.BALL_INFO): void {
-        this.velocity = new Vec2(
-            Math.random() * this.baseRate - this.baseRate / 2,
-            Math.random() * this.baseRate - this.baseRate / 2
-        )
+        
         this.initAttribute(info);
-        if(!info.velocity) this.initBallStatus();
+        if(!info.velocity) {
+            this.velocity = new Vec2(
+                Math.random() * this.baseRate - this.baseRate / 2,
+                Math.random() * this.baseRate - this.baseRate / 2
+            )
+            this.initBallStatus();
+        }
         this.ballcollider.on(Contact2DType.STAY_CONTACT, this.onStayContact, this);
         this.ballcollider.on(Contact2DType.END_CONTACT, this.onEndontact, this);
         this.node.active = true;
@@ -34,7 +37,6 @@ export class obstaclePrefab extends baseBallPrefab {
     }
 
     public endActive(): void {
-        // console.log('obstacle endActive >>', this.radius);
         this.node.active = false;
         this.ballRigid.enabled = false;
 
@@ -67,7 +69,6 @@ export class obstaclePrefab extends baseBallPrefab {
     }
 
     private recycleSelf(): void {
-        this.endActive();
         this.oCtr.recycleObstacle(this);
     }
 

@@ -38,7 +38,6 @@ export class playerPrefab extends baseBallPrefab {
         this.ballRigid.enabled = false;
         this.ballcollider.off(Contact2DType.STAY_CONTACT, this.onStayContact, this);
         this.ballcollider.off(Contact2DType.END_CONTACT, this.onEndontact, this);
-        this.recycleSelf();
     }
 
     private onStayContact(selfCollider: CircleCollider2D, otherCollider: CircleCollider2D, contact: IPhysics2DContact | null): void {
@@ -68,8 +67,8 @@ export class playerPrefab extends baseBallPrefab {
         // this.ballRigid.applyLinearImpulseToCenter(impulse, true);
     }
 
-    protected recycleSelf(): void {
-        this.node.active = false;
+    public recycleSelf(): void {
+        this.endActive();
         this.pStatus = SETTING.PLAYER_STATUS.NOTHING;
         DataManager.playerSetting.status = this.pStatus;
     }

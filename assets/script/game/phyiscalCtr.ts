@@ -7,9 +7,19 @@ export class phyiscalCtr extends Component {
 
     private gameCtr: main;
     private phySystem: PhysicsSystem2D;
-    public initPhyCtr(gameCtr: main): void {
-        this.gameCtr = gameCtr;
+
+    constructor(gameCtr: main){
+        super();
         this.phySystem = PhysicsSystem2D.instance;
+        this.gameCtr = gameCtr;
+    }
+
+    public pausePhysical(): void {
+        this.phySystem.enable = false;
+    }
+
+    public startPhysical(): void {
+        this.phySystem.enable = true;
     }
 
     public setPhyiscal(): void {

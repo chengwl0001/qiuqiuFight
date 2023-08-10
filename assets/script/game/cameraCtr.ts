@@ -16,7 +16,6 @@ export class cameraCtr extends Component {
 
     public startGame(): void {
         this.node.position = new Vec3(0, 0, 1);
-        this.isMax = false;
         this.cameraCom.orthoHeight = DataManager.cameraOrthoHeight;
     }
 
@@ -32,19 +31,13 @@ export class cameraCtr extends Component {
         if(this.cameraCom.orthoHeight >= DataManager.maxOrthoHeight) return;
         let orthoHeight = this.cameraCom.orthoHeight * (1 + 0.2 * (dif > 0 ? 1 : -1));
         orthoHeight = Math.min(DataManager.maxOrthoHeight, Math.max(orthoHeight, DataManager.minOrthoHeight));
-        if(orthoHeight === DataManager.maxOrthoHeight) {
-            this.isMax = true;
-            tween(this.node).to(
-                DataManager.cameraTweenDuration, { position: new Vec3(0, 0, 1)}
-            ).start();
-        }
         tween(this.cameraCom).to(
             DataManager.cameraTweenDuration, { orthoHeight: orthoHeight }
         ).start();
     }
 
     update(deltaTime: number) {
-        if(!this.isMax && this.targetNode)
+        if(this.targetNode)
             this.node.position = this.targetNode.position;
     }
 }

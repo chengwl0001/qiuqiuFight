@@ -6,6 +6,7 @@ import { cameraCtr } from './cameraCtr';
 import { SETTING } from '../core/gameSetting';
 import Utils from '../core/utils';
 import { DataManager } from '../core/global';
+import { phyiscalCtr } from './phyiscalCtr';
 
 const { ccclass, property } = _decorator;
 
@@ -24,6 +25,7 @@ export class main extends Component {
     public cameraCtr: cameraCtr;
 
     private inputEvent: Input;
+    private phyiscalCtr: phyiscalCtr;
     start() {
         Utils.initLog('main start');
         DataManager.canvasSize = view.getVisibleSizeInPixel();
@@ -39,6 +41,7 @@ export class main extends Component {
         this.obstacleCtr?.initObs();
         this.wallCtr?.initWall();
         this.playerCtr?.initPlayer(this);
+        this.phyiscalCtr = new phyiscalCtr(this);
         this.inputEvent = new Input();
     }
 
@@ -47,29 +50,29 @@ export class main extends Component {
         Utils.setSettingByLevel(DataManager.gameLevel);
 
         DataManager.gameStatus = SETTING.GAME_STATUS.GAMING;
-        this.setObstacle();
-        this.setWall();
-        this.setPlayer();
+        this.obstacleCtr?.startGame();
+        this.wallCtr?.startGame();
+        this.playerCtr?.startGame();
         this.cameraCtr.startGame();
         this.inputEvent.on(Input.EventType.TOUCH_START, this.touchStart, this);
+    }
+
+    public gamePause(): void {
+        DataManager.gameStatus = SETTING.GAME_STATUS.PAUSE;
+        this.phyiscalCtr?.pausePhysical();
+    }
+
+    public gameRestart(): void {
+        DataManager.gameStatus = SETTING.GAME_STATUS.GAMING;
+        this.phyiscalCtr?.startPhysical();
     }
 
     public gameOver(): void {
         Utils.initLog('game over');
         DataManager.gameStatus = SETTING.GAME_STATUS.OVER;
+
+        this.obstacleCtr?.endGame();
         this.inputEvent.off(Input.EventType.TOUCH_START, this.touchStart, this);
-    }
-
-    private setPlayer(): void {
-        this.playerCtr?.startGame();
-    }
-
-    private setObstacle(): void {
-        this.obstacleCtr?.startGame();
-    }
-
-    private setWall(): void {
-        this.wallCtr?.setWallRaduis();
     }
 
     private touchStart(event: EventTouch): void {
