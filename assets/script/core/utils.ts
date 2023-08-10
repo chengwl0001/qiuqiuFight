@@ -27,7 +27,7 @@ const Utils =  {
         DataManager.wallRadius = SETTING.WALL_RADIUS_GROUP[level];
         DataManager.obsSetting = {...SETTING.OBSTACLE_GROUP[level]};
         DataManager.playerSetting = {...SETTING.PLAYER_GROUP[level]};
-        DataManager.maxOrthoHeight = DataManager.wallRadius + 400;
+        DataManager.maxOrthoHeight = DataManager.wallRadius + 100;
     },
 
     getObstacleColor(self: number, player: number): SETTING.BALL_COLOR {

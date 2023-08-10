@@ -28,8 +28,18 @@ export class cameraCtr extends Component {
     }
 
     public setCameraHeight(dif: number): void {
-        if(this.cameraCom.orthoHeight >= DataManager.maxOrthoHeight) return;
-        let orthoHeight = this.cameraCom.orthoHeight * (1 + 0.2 * (dif > 0 ? 1 : -1));
+        let current = this.cameraCom.orthoHeight;
+        if(dif > 0 && current >= DataManager.maxOrthoHeight) return;
+        if(dif < 0 && current <= DataManager.minOrthoHeight) return;
+        
+        this.cameraCom.orthoHeight += dif / 40;
+    }
+
+    public setHeightByTween(dif: number): void {
+        let current = this.cameraCom.orthoHeight;
+        if(dif > 0 && current >= DataManager.maxOrthoHeight) return;
+        if(dif < 0 && current <= DataManager.minOrthoHeight) return;
+        let orthoHeight = current * (1 + 0.2 * (dif > 0 ? 1 : -1));
         orthoHeight = Math.min(DataManager.maxOrthoHeight, Math.max(orthoHeight, DataManager.minOrthoHeight));
         tween(this.cameraCom).to(
             DataManager.cameraTweenDuration, { orthoHeight: orthoHeight }

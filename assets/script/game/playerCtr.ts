@@ -80,7 +80,7 @@ export class playerCtr extends obstacleCtr {
 
     public changeCameraHeight(dif: number): void {
         console.log('changeCameraHeight >>', dif * 3)
-        this.gameCtr.cameraCtr.setCameraHeight(dif * 3);
+        this.gameCtr.cameraCtr.setHeightByTween(dif * 3);
     }
 
     public recyclePlayer(): void {
