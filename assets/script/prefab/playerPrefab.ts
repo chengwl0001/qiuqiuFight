@@ -13,6 +13,7 @@ export class playerPrefab extends baseBallPrefab {
 
     private pCtr: playerCtr;
     private pStatus: SETTING.PLAYER_STATUS = SETTING.PLAYER_STATUS.NOTHING;
+    private lastChangeRadius: number;
 
     init(pCtr: playerCtr) {
         this.pCtr = pCtr;
@@ -26,6 +27,7 @@ export class playerPrefab extends baseBallPrefab {
         this.initAttribute(info);
         this.ballcollider.on(Contact2DType.STAY_CONTACT, this.onStayContact, this);
         this.ballcollider.on(Contact2DType.END_CONTACT, this.onEndontact, this);
+        this.lastChangeRadius = this.radius;
         this.node.active = true;
         this.ballRigid.enabled = true;
         // this.ballRigid.linearVelocity = new Vec2(Math.random() * 10 - 5 , Math.random() * 10 - 5);
@@ -61,13 +63,26 @@ export class playerPrefab extends baseBallPrefab {
     }
 
     public setImpulse(impulse: Vec2): void {
-        this.ballRigid.applyLinearImpulseToCenter(impulse, true);
+        let cur = this.ballRigid.linearVelocity;
+        this.ballRigid.linearVelocity = new Vec2(cur.x + impulse.x, cur.y + impulse.y);
+        // this.ballRigid.applyLinearImpulseToCenter(impulse, true);
     }
 
     protected recycleSelf(): void {
         this.node.active = false;
         this.pStatus = SETTING.PLAYER_STATUS.NOTHING;
         DataManager.playerSetting.status = this.pStatus;
+    }
+
+    private changeCamera(): void {
+        let dif = this.radius - this.lastChangeRadius;
+
+        if(dif < 0 && dif > -10) return;
+
+        if(dif < DataManager.radiusChangeCamera) return;
+        this.pCtr.changeCameraHeight(dif);
+
+        this.lastChangeRadius = this.radius;
     }
 
     update(deltaTime: number) {
@@ -80,6 +95,8 @@ export class playerPrefab extends baseBallPrefab {
         if((this.distance >= DataManager.wallRadius)) {
             this.changeVelocity();
         }
+
+        this.changeCamera();
         this.updateBase(deltaTime);
         DataManager.playerSetting.radius = this.radius;
     }

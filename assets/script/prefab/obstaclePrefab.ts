@@ -78,7 +78,7 @@ export class obstaclePrefab extends baseBallPrefab {
             return;
         }
         this.distance = Utils.caculateDistance(this.node.position) + this.radius;
-        if((this.distance >= DataManager.wallRadius)) {
+        if((this.distance > DataManager.wallRadius)) {
             this.changeVelocity();
         }
         this.updateBase(deltaTime);

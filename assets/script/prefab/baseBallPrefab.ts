@@ -69,6 +69,7 @@ export class baseBallPrefab extends Component {
         let pX = node.position.x,
             pY = node.position.y;
 
+        if((vX * pX + vY * pY) < 0) return;
         let cell_speed = Math.sqrt( Math.pow(vX, 2) + Math.pow(vY, 2) );
         let angle_from_origin = Utils.angleForVector(pX, pY);
         let veloc_ang = Utils.angleForVector(vX, vY);
@@ -95,7 +96,7 @@ export class baseBallPrefab extends Component {
         // this.expanSpeed < DataManager.minAbsorbSpeed && (this.expanSpeed = DataManager.minAbsorbSpeed);
 	}
 
-    protected changeradius(val: number):void {
+    public changeradius(val: number):void {
         this.dRadius = val;
     }
 

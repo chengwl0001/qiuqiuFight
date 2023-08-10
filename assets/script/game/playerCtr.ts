@@ -46,19 +46,21 @@ export class playerCtr extends obstacleCtr {
         let v = dir.clone();
         let pRadius = this.playerCom.radius;
 
-        v.multiplyScalar(DataManager.impulseFactor);
+        v.multiplyScalar(DataManager.pushVelocity);
         this.playerCom.setImpulse(v);
 
         let changeMass = pRadius * pRadius * Math.PI * DataManager.lossPercent;
         let nodePos = this.playerCom.node.position;
         let selfChangeRadius = changeMass / (2 * Math.PI * pRadius);
 
+        this.playerCom.changeradius(pRadius - selfChangeRadius);
+
         let newRadius = Math.sqrt(changeMass / Math.PI);
         let v2 = dir.clone().multiplyScalar(pRadius + newRadius + 0.5);
         let pos = new Vec3(nodePos.x - v2.x, nodePos.y - v2.y, 1);
 
         newRadius = newRadius < DataManager.minRaduis ? DataManager.minRaduis : newRadius;
-
+        dir.multiplyScalar(DataManager.buttetVelocity);
         this.gameCtr.obstacleCtr.setBullet(pos, newRadius, new Vec2(-dir.x, -dir.y))
     }
 
@@ -72,8 +74,9 @@ export class playerCtr extends obstacleCtr {
         this.baseNode?.addChild(this.playerBall);
     }
 
-    public changeCameraHeight(): void {
-        this.gameCtr.cameraCtr.setCameraHeight(100);
+    public changeCameraHeight(dif: number): void {
+        console.log('changeCameraHeight >>', dif * 3)
+        this.gameCtr.cameraCtr.setCameraHeight(dif * 3);
     }
 
     public recyclePlayer(): void {

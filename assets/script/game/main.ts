@@ -50,6 +50,7 @@ export class main extends Component {
         this.setObstacle();
         this.setWall();
         this.setPlayer();
+        this.cameraCtr.startGame();
         this.inputEvent.on(Input.EventType.TOUCH_START, this.touchStart, this);
     }
 
@@ -74,17 +75,6 @@ export class main extends Component {
     private touchStart(event: EventTouch): void {
         if(DataManager.gameStatus === SETTING.GAME_STATUS.GAMING) {
             this.playerCtr.clickEvent(event.touch.getLocation())
-
-            // this.obstacleCtr.setBullet(
-            //     new Vec3(Math.random() * 100 - 50, Math.random() * 100 - 50), 
-            //     20, 
-            //     new Vec2(10, 10)
-            // )
-            // this.obstacleCtr.setBullet(
-            //     new Vec3(Math.random() * 100 - 50, Math.random() * 100 - 50, 1), 
-            //     1.4, 
-            //     new Vec2()
-            // )
         }
     }
 

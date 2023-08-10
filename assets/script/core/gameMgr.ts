@@ -10,8 +10,10 @@ export default class GameMgr {
     private gObsSetting          : SETTING.OBSTACLE_SETTING = SETTING.OBSTACLE_GROUP[0];
     private gPlayerSetting       : SETTING.PLAYER_SETTING   = SETTING.PLAYER_GROUP[0];
 
-    private gLinerDamping        : number                   = 0.15;
-    private gImpulseFactor       : number                   = 0.5;
+    private gPushVelocity        : number                   = 0.6;
+    private gButtetVelocity      : number                   = 5;
+    private gLinerDamping        : number                   = 0.05;
+    private gImpulseFactor       : number                   = 0.3;
 
     private gLossPercent         : number                   = 1/50;
 
@@ -19,7 +21,11 @@ export default class GameMgr {
     private gMinRaduis           : number                   = 1.5;
     private gMinAbsorbSpeed      : number                   = 0.1;
 
-    private gCameraTweenDuration : number                   = 1;
+    private gCameraOrthoHeight   : number                   = 150;
+    private gMinOrthoHeight      : number                   = 120;
+    private gMaxOrthoHeight      : number                   = 1200;
+    private gCameraTweenDuration : number                   = 0.6;
+    private gRadiusChangeCamera  : number                   = 5;
 
     private static _Inst: GameMgr;
 
@@ -51,6 +57,8 @@ export default class GameMgr {
     get gameStatus() { return this.gGameStatus };
     set gameStatus(val: SETTING.GAME_STATUS) { this.gGameStatus = val };
 
+    get pushVelocity() { return this.gPushVelocity };
+    get buttetVelocity() { return this.gButtetVelocity };
     get linerDamping() { return this.gLinerDamping };
     get impulseFactor() { return this.gImpulseFactor };
     get lossPercent() { return this.gLossPercent };
@@ -58,7 +66,15 @@ export default class GameMgr {
     get absorbCalibration() { return this.gAbsorbCalibration };
     get minRaduis() { return this.gMinRaduis };
     get minAbsorbSpeed() { return this.gMinAbsorbSpeed };
+
+    get cameraOrthoHeight() { return this.gCameraOrthoHeight };
+    get minOrthoHeight() { return this.gMinOrthoHeight };
+
+    get maxOrthoHeight() { return this.gMaxOrthoHeight };
+    set maxOrthoHeight(val: number) { this.gMaxOrthoHeight = val };
+
     get cameraTweenDuration() { return this.gCameraTweenDuration };
+    get radiusChangeCamera() { return this.gRadiusChangeCamera };
 
 }
 
