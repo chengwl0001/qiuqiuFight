@@ -7,6 +7,7 @@ import { SETTING } from '../core/gameSetting';
 import Utils from '../core/utils';
 import { DataManager } from '../core/global';
 import { phyiscalCtr } from './phyiscalCtr';
+import { clickCtr } from './clickCtr';
 
 const { ccclass, property } = _decorator;
 
@@ -24,8 +25,8 @@ export class main extends Component {
     @property(cameraCtr)
     public cameraCtr: cameraCtr;
 
-    private inputEvent: Input;
     private phyiscalCtr: phyiscalCtr;
+    private clickCtr: clickCtr;
     start() {
         Utils.initLog('main start');
         DataManager.canvasSize = view.getVisibleSizeInPixel();
@@ -42,7 +43,7 @@ export class main extends Component {
         this.wallCtr?.initWall();
         this.playerCtr?.initPlayer(this);
         this.phyiscalCtr = new phyiscalCtr(this);
-        this.inputEvent = new Input();
+        this.clickCtr = new clickCtr(this);
     }
 
     private gameStart(): void {
@@ -54,7 +55,7 @@ export class main extends Component {
         this.wallCtr?.startGame();
         this.playerCtr?.startGame();
         this.cameraCtr.startGame();
-        this.inputEvent.on(Input.EventType.TOUCH_START, this.touchStart, this);
+        this.clickCtr?.startGame();
     }
 
     public gamePause(): void {
@@ -72,13 +73,7 @@ export class main extends Component {
         DataManager.gameStatus = SETTING.GAME_STATUS.OVER;
 
         this.obstacleCtr?.endGame();
-        this.inputEvent.off(Input.EventType.TOUCH_START, this.touchStart, this);
-    }
-
-    private touchStart(event: EventTouch): void {
-        if(DataManager.gameStatus === SETTING.GAME_STATUS.GAMING) {
-            this.playerCtr.clickEvent(event.touch.getLocation())
-        }
+        this.clickCtr?.endGame();
     }
 
     update(deltaTime: number) {

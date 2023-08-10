@@ -8,6 +8,8 @@ export class cameraCtr extends Component {
     private cameraCom: Camera;
     private targetNode: Node;
 
+    private targetOH: number = 0;
+    private isTween: boolean = false;
     private isMax: boolean = false;
     public initCamera(): void {
         Utils.initLog('init camera');
@@ -17,6 +19,7 @@ export class cameraCtr extends Component {
     public startGame(): void {
         this.node.position = new Vec3(0, 0, 1);
         this.cameraCom.orthoHeight = DataManager.cameraOrthoHeight;
+        this.targetOH = DataManager.cameraOrthoHeight;
     }
 
     public setTargetNode(n: Node | null): void {
@@ -27,27 +30,44 @@ export class cameraCtr extends Component {
         this.targetNode = null;
     }
 
-    public setCameraHeight(dif: number): void {
+    public changeCameraHeight(dif: number, type: number = 0): void {
         let current = this.cameraCom.orthoHeight;
         if(dif > 0 && current >= DataManager.maxOrthoHeight) return;
         if(dif < 0 && current <= DataManager.minOrthoHeight) return;
-        
-        this.cameraCom.orthoHeight += dif / 40;
+
+        if(type === 0) {
+            let orthoHeight = current * (1 + 0.2 * (dif > 0 ? 1 : -1));
+            orthoHeight = Math.min(DataManager.maxOrthoHeight, Math.max(orthoHeight, DataManager.minOrthoHeight));
+            this.startScaleTween(orthoHeight);
+        } else if(type === 1) {
+            if((dif < 0 && this.targetOH > current) || (dif > 0 && this.targetOH < current)) {
+                this.targetOH = current;
+            }
+            this.targetOH += dif;
+            this.targetOH = Math.min(DataManager.maxOrthoHeight, Math.max(this.targetOH, DataManager.minOrthoHeight));
+        }
     }
 
-    public setHeightByTween(dif: number): void {
-        let current = this.cameraCom.orthoHeight;
-        if(dif > 0 && current >= DataManager.maxOrthoHeight) return;
-        if(dif < 0 && current <= DataManager.minOrthoHeight) return;
-        let orthoHeight = current * (1 + 0.2 * (dif > 0 ? 1 : -1));
-        orthoHeight = Math.min(DataManager.maxOrthoHeight, Math.max(orthoHeight, DataManager.minOrthoHeight));
+    private startScaleTween(orthoHeight: number, duration ?: number): void {
+        if(this.isTween) return;
         tween(this.cameraCom).to(
-            DataManager.cameraTweenDuration, { orthoHeight: orthoHeight }
+            duration || DataManager.cameraTweenDuration,
+            { orthoHeight: orthoHeight },
+            { onComplete: () => { this.isTween = false; this.targetOH = orthoHeight }}
         ).start();
+        this.isTween = true;
+    }
+
+    public setOrthoHeight(dif: number): void {
+        this.cameraCom.orthoHeight += dif;
     }
 
     update(deltaTime: number) {
-        if(this.targetNode)
-            this.node.position = this.targetNode.position;
+        if(this.targetNode) this.node.position = this.targetNode.position;
+        let dif = this.targetOH - this.cameraCom.orthoHeight;
+        if(!this.isTween && dif !== 0) {
+            if(Math.abs(dif) < 1) this.setOrthoHeight(dif);
+            else this.setOrthoHeight(dif * deltaTime * 2);
+        }
     }
 }

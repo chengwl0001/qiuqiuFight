@@ -31,7 +31,7 @@ export class clickCtr extends Component {
     }
 
     private wheel(event: EventMouse): void {
-        this.gameCtr.cameraCtr.setCameraHeight(-event.getScrollY());
+        this.gameCtr.cameraCtr.changeCameraHeight(-event.getScrollY() / 40, 1);
     }
 }
 
