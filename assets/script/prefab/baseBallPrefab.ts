@@ -60,7 +60,9 @@ export class baseBallPrefab extends Component {
                 this.ballcollider.friction = DataManager.obstacleFriction;
                 break;
             case SETTING.BALL_TYPE.BULLET:
+                // this.ballcollider.friction = DataManager.playerFriction;
                 this.ballcollider.friction = DataManager.buttetFriction;
+                this.ballRigid.linearDamping = DataManager.buttetLinerDamping;
                 break;
         }
     }
@@ -101,7 +103,7 @@ export class baseBallPrefab extends Component {
 		}
 		
 		let overlap = (smaller + bigger - distance) / (2 * smaller);
-		if (overlap > 1.5) overlap = 1.5;
+		if (overlap > 1) overlap = 3;
 		overlap *= overlap;
 		this.expanSpeed = overlap * smaller * smaller / (2 * this.radius);
 	}

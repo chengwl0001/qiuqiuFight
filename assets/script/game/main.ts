@@ -79,6 +79,7 @@ export class main extends Component {
         this.playerCtr?.endGame();
         this.obstacleCtr?.endGame();
         this.clickCtr?.endGame();
+        this.cameraCtr?.endGame();
     }
 
     update(deltaTime: number) {
