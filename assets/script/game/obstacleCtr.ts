@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, NodePool, Prefab, instantiate, Vec2, Vec3 } from 'cc';
+import { _decorator, Component, Node, NodePool, Prefab, instantiate, Vec2, Vec3, Layers } from 'cc';
 import { obstaclePrefab } from '../prefab/obstaclePrefab';
 import { SETTING } from '../core/gameSetting';
 import Utils from '../core/utils';
@@ -38,6 +38,7 @@ export class obstacleCtr extends Component {
         let obsIns = instantiate(this.ball);
         obsIns.getComponent(obstaclePrefab).init(this);
         obsIns.name = this.poolNum.toString();
+        obsIns.layer = Layers.BitMask.UI_3D;
         this.poolNum++;
         return obsIns;
     }

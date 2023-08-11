@@ -1,4 +1,4 @@
-import { _decorator, Vec2, Node, instantiate, Vec3 } from 'cc';
+import { _decorator, Vec2, Node, instantiate, Vec3, Layers } from 'cc';
 import { obstacleCtr } from './obstacleCtr';
 import { main } from './main';
 import { playerPrefab } from '../prefab/playerPrefab'; 
@@ -24,6 +24,7 @@ export class playerCtr extends obstacleCtr {
 
         if(!this.playerBall) {
             this.playerBall = instantiate(this.ball);
+            this.playerBall.layer = Layers.BitMask.UI_3D;
         }
 
         this.playerCom = this.playerBall.getComponent(playerPrefab);
