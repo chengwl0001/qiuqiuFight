@@ -2,6 +2,7 @@ import { SETTING } from "./gameSetting";
 export default class GameMgr {
     private gPhysicSpeed         : SETTING.GAME_SPEED       = SETTING.GAME_SPEED.SPEED_1;
     private gMusic               : SETTING.GAME_BGM         = SETTING.GAME_BGM.OPEN; //BGM
+    private gCanvasPixelSize     : SIZE_2D;
     private gCanvasSize          : SIZE_2D;
 
     private gGameStatus          : SETTING.GAME_STATUS      = SETTING.GAME_STATUS.LOADING;
@@ -10,20 +11,16 @@ export default class GameMgr {
     private gObsSetting          : SETTING.OBSTACLE_SETTING = SETTING.OBSTACLE_GROUP[0];
     private gPlayerSetting       : SETTING.PLAYER_SETTING   = SETTING.PLAYER_GROUP[0];
 
+    private gPlayerRatioInCanvas : number                   = 0.1;
+
     private gPushVelocity        : number                   = 0.6;
     private gButtetVelocity      : number                   = 5;
     private gLinerDamping        : number                   = 0.05;
-    private gImpulseFactor       : number                   = 0.3;
 
     private gLossPercent         : number                   = 1/50;
 
-    private gAbsorbCalibration   : number                   = 1;
     private gMinRaduis           : number                   = 1.5;
-    private gMinAbsorbSpeed      : number                   = 0.1;
 
-    private gCameraOrthoHeight   : number                   = 150;
-    private gMinOrthoHeight      : number                   = 120;
-    private gMaxOrthoHeight      : number                   = 1200;
     private gCameraTweenDuration : number                   = 0.6;
     private gRadiusChangeCamera  : number                   = 5;
 
@@ -39,9 +36,12 @@ export default class GameMgr {
     get bgm() { return this.gMusic };
     set bgm(val: SETTING.GAME_BGM) { this.gMusic = val };
 
+    get canvasPixelSize() { return this.gCanvasPixelSize };
+    set canvasPixelSize(val: SIZE_2D) { this.gCanvasPixelSize = val };
+
     get canvasSize() { return this.gCanvasSize };
     set canvasSize(val: SIZE_2D) { this.gCanvasSize = val };
-
+    
     get gameLevel() { return this.gGameLevel };
     set gameLevel(val: SETTING.GAME_LEVEL) { this.gGameLevel = val };
 
@@ -57,21 +57,14 @@ export default class GameMgr {
     get gameStatus() { return this.gGameStatus };
     set gameStatus(val: SETTING.GAME_STATUS) { this.gGameStatus = val };
 
+    get playerRatioInCanvas() { return this.gPlayerRatioInCanvas };
+
     get pushVelocity() { return this.gPushVelocity };
     get buttetVelocity() { return this.gButtetVelocity };
     get linerDamping() { return this.gLinerDamping };
-    get impulseFactor() { return this.gImpulseFactor };
     get lossPercent() { return this.gLossPercent };
 
-    get absorbCalibration() { return this.gAbsorbCalibration };
     get minRaduis() { return this.gMinRaduis };
-    get minAbsorbSpeed() { return this.gMinAbsorbSpeed };
-
-    get cameraOrthoHeight() { return this.gCameraOrthoHeight };
-    get minOrthoHeight() { return this.gMinOrthoHeight };
-
-    get maxOrthoHeight() { return this.gMaxOrthoHeight };
-    set maxOrthoHeight(val: number) { this.gMaxOrthoHeight = val };
 
     get cameraTweenDuration() { return this.gCameraTweenDuration };
     get radiusChangeCamera() { return this.gRadiusChangeCamera };

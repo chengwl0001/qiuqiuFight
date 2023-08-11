@@ -20,7 +20,7 @@ export class playerCtr extends obstacleCtr {
         Utils.initLog('init player');
 
         this.gameCtr = gameCtr;
-        this.viewCenter = new Vec2(DataManager.canvasSize.width / 2, DataManager.canvasSize.height / 2);
+        this.viewCenter = new Vec2(DataManager.canvasPixelSize.width / 2, DataManager.canvasPixelSize.height / 2);
 
         if(!this.playerBall) {
             this.playerBall = instantiate(this.ball);
@@ -80,11 +80,6 @@ export class playerCtr extends obstacleCtr {
 
     public changeCameraHeight(dif: number): void {
         this.gameCtr.cameraCtr.changeCameraHeight(dif * 3);
-    }
-
-    public recyclePlayer(): void {
-        this.playerBall.active = false;
-        this.playerBall.removeFromParent();
     }
 
     update(deltaTime: number) {

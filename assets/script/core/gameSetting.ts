@@ -69,10 +69,10 @@ export namespace SETTING {
     export enum WALL_RADIUS {
         WALL_LEVEL_1 = 800,
         WALL_LEVEL_2 = 1000,
-        WALL_LEVEL_3 = 1200,
-        WALL_LEVEL_4 = 1400,
-        WALL_LEVEL_5 = 1400,
-        WALL_LEVEL_6 = 1400,
+        WALL_LEVEL_3 = 1000,
+        WALL_LEVEL_4 = 1000,
+        WALL_LEVEL_5 = 1000,
+        WALL_LEVEL_6 = 1000,
     }
     export enum GAME_SPEED {
         SPEED_1 = 1,
@@ -97,7 +97,7 @@ export namespace SETTING {
         { total: 80,  sRaduis: 30, sPercent: 0.6,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
         { total: 100, sRaduis: 30, sPercent: 0.55, nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
         { total: 120, sRaduis: 30, sPercent: 0.5,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
-        { total: 140, sRaduis: 30, sPercent: 0.45, nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
+        { total: 160, sRaduis: 30, sPercent: 0.45, nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
         { total: 180, sRaduis: 30, sPercent: 0.4,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
         { total: 200, sRaduis: 30, sPercent: 0.4,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
     ]

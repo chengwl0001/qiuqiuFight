@@ -74,11 +74,11 @@ export class playerPrefab extends baseBallPrefab {
     }
 
     private changeCamera(): void {
-        let dif = this.radius - this.lastChangeRadius;
+        let dif = this.lastChangeRadius - this.radius;
 
-        if(dif < 0 && dif > -10) return;
+        // if(dif < 0 && dif > -10) return;
 
-        if(dif < DataManager.radiusChangeCamera) return;
+        if(Math.abs(dif) < DataManager.radiusChangeCamera) return;
         this.pCtr.changeCameraHeight(dif);
 
         this.lastChangeRadius = this.radius;
@@ -88,7 +88,6 @@ export class playerPrefab extends baseBallPrefab {
         if(!this.node.active) return;
         if(this.radius < DataManager.minRaduis) {
             EventManager.emit(SETTING.GAME_EVENT_TYPE.GAME_OVER);
-            // this.recycleSelf();
             return;
         }
         this.distance = Utils.caculateDistance(this.node.position) + this.radius;

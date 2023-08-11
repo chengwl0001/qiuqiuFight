@@ -37,7 +37,7 @@ export class baseBallPrefab extends Component {
     protected initAttribute(info: SETTING.BALL_INFO) {
         this.ballType = info.type;
         this.dRadius = info.radius;
-        this.node.setPosition(info.position.x, info.position.y, 1);
+        this.node.setPosition(info.position.x, info.position.y, 0);
 
         if(info.velocity) {
             this.setVolocity(info.velocity);
@@ -93,7 +93,6 @@ export class baseBallPrefab extends Component {
 		if (overlap > 1.5) overlap = 1.5;
 		overlap *= overlap;
 		this.expanSpeed = overlap * smaller * smaller / (2 * this.radius);
-        // this.expanSpeed < DataManager.minAbsorbSpeed && (this.expanSpeed = DataManager.minAbsorbSpeed);
 	}
 
     public changeradius(val: number):void {

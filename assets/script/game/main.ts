@@ -1,4 +1,4 @@
-import { _decorator, Component, view } from 'cc';
+import { _decorator, Component, view, screen } from 'cc';
 import { obstacleCtr } from './obstacleCtr';
 import { playerCtr } from './playerCtr';
 import { wallCtr } from './wallCtr';
@@ -29,7 +29,8 @@ export class main extends Component {
     private clickCtr: clickCtr;
     start() {
         Utils.initLog('main start');
-        DataManager.canvasSize = view.getVisibleSizeInPixel();
+        DataManager.canvasPixelSize = view.getVisibleSizeInPixel();
+        DataManager.canvasSize = view.getVisibleSize();
         this.controlInit();
         setTimeout(() => {
             this.gameStart();
@@ -48,6 +49,7 @@ export class main extends Component {
 
     private gameStart(): void {
         Utils.initLog('game start');
+        DataManager.gameLevel = SETTING.GAME_LEVEL.LEVEL_1;
         Utils.setSettingByLevel(DataManager.gameLevel);
 
         EventManager.once(SETTING.GAME_EVENT_TYPE.GAME_OVER, this.gameOver, this);
@@ -74,6 +76,7 @@ export class main extends Component {
         Utils.initLog('game over');
         DataManager.gameStatus = SETTING.GAME_STATUS.OVER;
 
+        this.playerCtr?.endGame();
         this.obstacleCtr?.endGame();
         this.clickCtr?.endGame();
     }
