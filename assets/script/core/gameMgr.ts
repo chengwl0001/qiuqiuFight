@@ -14,8 +14,12 @@ export default class GameMgr {
     private gPlayerRatioInCanvas : number                   = 0.1;
 
     private gPushVelocity        : number                   = 0.6;
-    private gButtetVelocity      : number                   = 5;
-    private gLinerDamping        : number                   = 0.05;
+    private gButtetVelocity      : number                   = 10;
+    private gLinerDamping        : number                   = 0.1;
+
+    private gPlayerFriction      : number                   = 0.05;
+    private gObstacleFriction    : number                   = 0.1;
+    private gButtetFriction      : number                   = 0.3;
 
     private gLossPercent         : number                   = 1/50;
 
@@ -62,6 +66,11 @@ export default class GameMgr {
     get pushVelocity() { return this.gPushVelocity };
     get buttetVelocity() { return this.gButtetVelocity };
     get linerDamping() { return this.gLinerDamping };
+
+    get playerFriction() { return this.gPlayerFriction };
+    get obstacleFriction() { return this.gObstacleFriction };
+    get buttetFriction() { return this.gButtetFriction };
+
     get lossPercent() { return this.gLossPercent };
 
     get minRaduis() { return this.gMinRaduis };

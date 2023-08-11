@@ -30,7 +30,6 @@ export class playerPrefab extends baseBallPrefab {
         this.lastChangeRadius = this.radius;
         this.node.active = true;
         this.ballRigid.enabled = true;
-        // this.ballRigid.linearVelocity = new Vec2(Math.random() * 10 - 5 , Math.random() * 10 - 5);
     }
 
     public endActive(): void {
@@ -64,7 +63,6 @@ export class playerPrefab extends baseBallPrefab {
     public setImpulse(impulse: Vec2): void {
         let cur = this.ballRigid.linearVelocity;
         this.ballRigid.linearVelocity = new Vec2(cur.x + impulse.x, cur.y + impulse.y);
-        // this.ballRigid.applyLinearImpulseToCenter(impulse, true);
     }
 
     public recycleSelf(): void {
@@ -75,8 +73,6 @@ export class playerPrefab extends baseBallPrefab {
 
     private changeCamera(): void {
         let dif = this.lastChangeRadius - this.radius;
-
-        // if(dif < 0 && dif > -10) return;
 
         if(Math.abs(dif) < DataManager.radiusChangeCamera) return;
         this.pCtr.changeCameraHeight(dif);

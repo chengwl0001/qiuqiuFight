@@ -52,6 +52,17 @@ export class baseBallPrefab extends Component {
         this.ballRigid.gravityScale = 0;
         this.ballRigid.fixedRotation = true;
         this.ballRigid.linearDamping = DataManager.linerDamping;
+        switch(this.ballType) {
+            case SETTING.BALL_TYPE.PLAYER:
+                this.ballcollider.friction = DataManager.playerFriction;
+                break;
+            case SETTING.BALL_TYPE.OBSTACLE:
+                this.ballcollider.friction = DataManager.obstacleFriction;
+                break;
+            case SETTING.BALL_TYPE.BULLET:
+                this.ballcollider.friction = DataManager.buttetFriction;
+                break;
+        }
     }
 
     public changeSpframe(i: number) {

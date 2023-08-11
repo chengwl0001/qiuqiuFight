@@ -93,30 +93,11 @@ export class obstacleCtr extends Component {
             this.setObsStatus(com, info);
         }
     }
-    // generateNonOverlappingBalls(numBalls, ratios) {
-    //     const radius = DataManager.wallRadius;
     
-    //     const angles = [];
-    //     const step = (2 * Math.PI) / numBalls;
-    
-    //     for (let i = 0; i < numBalls; i++) {
-    //         angles.push(i * step);
-    //     }
-    
-    //     for (let i = 0; i < numBalls; i++) {
-    //         const angle = angles[i];
-    //         const angleOffset = Math.random() * (step / 2);
-    
-    //         const x = radius * Math.cos(angle + angleOffset);
-    //         const y = radius * Math.sin(angle + angleOffset);
-    //     }
-    // }
-    
-
     public setBullet(pos: Vec3, radius: number, v: Vec2) {
         let bullet = this.getObstacleByPool();
         let status = {
-            type: SETTING.BALL_TYPE.OBSTACLE,
+            type: SETTING.BALL_TYPE.BULLET,
             radius,
             color: SETTING.BALL_COLOR.RADIUS_NORMAL,
             position: pos,
