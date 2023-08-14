@@ -80,7 +80,7 @@ export class playerCtr extends obstacleCtr {
     }
 
     public changeCameraHeight(dif: number): void {
-        this.gameCtr.cameraCtr.changeCameraHeight(dif * 3);
+        this.gameCtr.cameraCtr.changeCameraHeight(-dif * 3);
     }
 
     update(deltaTime: number) {

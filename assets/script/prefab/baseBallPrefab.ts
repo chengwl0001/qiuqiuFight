@@ -103,7 +103,7 @@ export class baseBallPrefab extends Component {
 		}
 		
 		let overlap = (smaller + bigger - distance) / (2 * smaller);
-		if (overlap > 1) overlap = 3;
+		if (overlap > 1) overlap = DataManager.maxAbsorbSpeed;
 		overlap *= overlap;
 		this.expanSpeed = overlap * smaller * smaller / (2 * this.radius);
 	}
@@ -124,7 +124,7 @@ export class baseBallPrefab extends Component {
     protected updateBase(deltaTime: number) {
         if(this.dRadius !== this.radius) {
             let change = this.dRadius - this.radius;
-            change = Math.abs(change) < 0.1 ? change : change * deltaTime * 3;
+            change = Math.abs(change) < 0.1 ? change : change * deltaTime * DataManager.updateAbsorbFacor;
             this.setRaduius(this.radius + change);
         }
     }

@@ -94,7 +94,7 @@ export namespace SETTING {
 
     //<===================================> Const <===================================>
     export const OBSTACLE_GROUP: OBSTACLE_SETTING[] = [
-        { total: 1,  sRaduis: 30, sPercent: 0.6,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
+        { total: 80,  sRaduis: 30, sPercent: 0.6,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
         { total: 100, sRaduis: 30, sPercent: 0.55, nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
         { total: 120, sRaduis: 30, sPercent: 0.5,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
         { total: 160, sRaduis: 30, sPercent: 0.45, nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
@@ -102,7 +102,7 @@ export namespace SETTING {
         { total: 200, sRaduis: 30, sPercent: 0.4,  nRaduis: 60, nPercent: 0.3, lRaduis: 100 },
     ]
     export const PLAYER_GROUP: PLAYER_SETTING[] = [
-        { radius: 100, status: PLAYER_STATUS.NOTHING },
+        { radius: 10, status: PLAYER_STATUS.NOTHING },
         { radius: 10, status: PLAYER_STATUS.NOTHING },
         { radius: 10, status: PLAYER_STATUS.NOTHING },
         { radius: 10, status: PLAYER_STATUS.NOTHING },
@@ -117,6 +117,11 @@ export namespace SETTING {
         WALL_RADIUS.WALL_LEVEL_5,
         WALL_RADIUS.WALL_LEVEL_6,
     ]
+
+    export enum SWITCH_STATUS {
+        ON,
+        OFF
+    }
     //<===================================> type <===================================>
     export interface BALL_INFO {
         type      : BALL_TYPE,
@@ -143,9 +148,5 @@ export namespace SETTING {
     export type LEVEL_SETTING = {
         obstacleSetting   : OBSTACLE_SETTING;
         wallRadius        : WALL_RADIUS;
-    }
-    interface VEC2 {
-        x: number
-        y: number
     }
 }

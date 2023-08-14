@@ -1,7 +1,7 @@
 import { SETTING } from "./gameSetting";
 export default class GameMgr {
     private gPhysicSpeed         : SETTING.GAME_SPEED       = SETTING.GAME_SPEED.SPEED_1;
-    private gMusic               : SETTING.GAME_BGM         = SETTING.GAME_BGM.OPEN; //BGM
+    private gMusic               : SETTING.SWITCH_STATUS    = SETTING.SWITCH_STATUS.ON; //BGM
     private gCanvasPixelSize     : SIZE_2D;
     private gCanvasSize          : SIZE_2D;
 
@@ -29,6 +29,11 @@ export default class GameMgr {
     private gCameraTweenDuration : number                   = 0.6;
     private gRadiusChangeCamera  : number                   = 5;
 
+    private gSwitchButtonDuration: number                   = 0.2;
+
+    private gMaxAbsorbSpeed      : number                   = 2;
+    private gUpdateAbsorbFacor   : number                   = 3;
+
     private static _Inst: GameMgr;
 
     public static Inst() {
@@ -39,7 +44,7 @@ export default class GameMgr {
     }
 
     get bgm() { return this.gMusic };
-    set bgm(val: SETTING.GAME_BGM) { this.gMusic = val };
+    set bgm(val: SETTING.SWITCH_STATUS) { this.gMusic = val };
 
     get canvasPixelSize() { return this.gCanvasPixelSize };
     set canvasPixelSize(val: SIZE_2D) { this.gCanvasPixelSize = val };
@@ -79,6 +84,11 @@ export default class GameMgr {
 
     get cameraTweenDuration() { return this.gCameraTweenDuration };
     get radiusChangeCamera() { return this.gRadiusChangeCamera };
+
+    get switchButtonDuration() { return this.gSwitchButtonDuration };
+
+    get maxAbsorbSpeed() { return this.gMaxAbsorbSpeed };
+    get updateAbsorbFacor() { return this.gUpdateAbsorbFacor };
 
 }
 

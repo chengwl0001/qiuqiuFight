@@ -27,7 +27,7 @@ export class cameraCtr extends Component {
     public startGame(): void {
         this.node.setPosition(0, 0);
         this.minOrthoHeight = DataManager.playerSetting.radius / DataManager.playerRatioInCanvas;
-        this.maxOrthoHeight = DataManager.wallRadius  + 100;
+        this.maxOrthoHeight = DataManager.wallRadius  + 300;
     }
 
     public endGame(): void {
@@ -48,7 +48,7 @@ export class cameraCtr extends Component {
         if(dif < 0 && current <= this.minOrthoHeight) return;
 
         if(type === SETTING.CAMERA_CHANGE_TYPE.BY_TWEEN) {
-            let orthoHeight = this.compareTargetHeight(current * (1 + 0.2 * (dif > 0 ? 1 : -1)));
+            let orthoHeight = this.compareTargetHeight(current * (1 + 0.1 * Math.sign(dif)));
             this.startHeightTween(orthoHeight);
         } else if(type === SETTING.CAMERA_CHANGE_TYPE.BY_DIF) {
             if((dif < 0 && this.targetOH > current) || (dif > 0 && this.targetOH < current)) {
