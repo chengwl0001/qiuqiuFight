@@ -5,7 +5,8 @@
     "collisionMatrix": {
       "0": 1,
       "1": 2
-    }
+    },
+    "autoSimulation": true
   },
   "custom_joint_texture_layouts": [],
   "general": {

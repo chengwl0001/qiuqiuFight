@@ -36,6 +36,7 @@ export class baseBallPrefab extends Component {
 
     protected initAttribute(info: SETTING.BALL_INFO) {
         this.ballType = info.type;
+        this.ballcollider.tag = info.type;
         this.dRadius = info.radius;
         this.node.setPosition(info.position.x, info.position.y, 0);
 

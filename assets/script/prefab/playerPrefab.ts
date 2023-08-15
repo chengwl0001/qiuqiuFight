@@ -29,6 +29,7 @@ export class playerPrefab extends baseBallPrefab {
         this.ballcollider.on(Contact2DType.END_CONTACT, this.onEndontact, this);
         this.lastChangeRadius = this.radius;
         this.node.active = true;
+        this.ballRigid.linearVelocity = new Vec2();
         this.ballRigid.enabled = true;
     }
 
@@ -40,6 +41,8 @@ export class playerPrefab extends baseBallPrefab {
     }
 
     private onStayContact(selfCollider: CircleCollider2D, otherCollider: CircleCollider2D, contact: IPhysics2DContact | null): void {
+        if(otherCollider.tag >= SETTING.BALL_TYPE.FIRE_BALL) return;
+        
         let selfPosition: Vec2 = selfCollider.worldPosition;
         let otherPosition: Vec2 = otherCollider.worldPosition;
         let distance = Utils.caculateDistance(selfPosition, otherPosition);
@@ -83,7 +86,7 @@ export class playerPrefab extends baseBallPrefab {
     update(deltaTime: number) {
         if(!this.node.active) return;
         if(this.radius < DataManager.minRaduis) {
-            EventManager.emit(SETTING.GAME_EVENT_TYPE.GAME_OVER);
+            EventManager.emit(SETTING.GAME_STATUS_TYPE.GAME_LOSE);
             return;
         }
         this.distance = Utils.caculateDistance(this.node.position) + this.radius;

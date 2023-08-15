@@ -24,10 +24,10 @@ export namespace SETTING {
         OPEN,
     }
     export enum BALL_TYPE {
-        OBSTACLE  = 'obstacle',
-        PLAYER    = 'player',
-        BULLET    = 'bullet',
-        FIRE_BALL = 'fire_ball',
+        OBSTACLE = 0,
+        PLAYER = 0.1,
+        BULLET = 0.2,
+        FIRE_BALL = 1,
     }
     export enum BALL_COLOR {
         RADIUS_NORMAL,
@@ -86,9 +86,11 @@ export namespace SETTING {
         BY_DIF,
     }
 
-    export enum GAME_EVENT_TYPE {
+    export enum GAME_STATUS_TYPE {
         GAME_START = 'gameStart',
         GAME_PAUSE = 'gamePause',
+        GAME_WIN = 'gameWin',
+        GAME_LOSE = 'gameLose',
         GAME_OVER = 'gameOver',
     }
 
@@ -143,10 +145,5 @@ export namespace SETTING {
     export interface PLAYER_SETTING {
         radius      : number,
         status     ?: SETTING.PLAYER_STATUS,
-    }
-
-    export type LEVEL_SETTING = {
-        obstacleSetting   : OBSTACLE_SETTING;
-        wallRadius        : WALL_RADIUS;
     }
 }

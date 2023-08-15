@@ -59,6 +59,9 @@ export class obstacleCtr extends Component {
     }
 
     public startGame() {
+        if(this.obstacleList.length > 0) {
+            this.endGame();
+        }
         this.setObsByNumber(DataManager.obsSetting.total);
     }
 

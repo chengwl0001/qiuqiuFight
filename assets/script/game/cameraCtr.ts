@@ -6,8 +6,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('cameraCtr')
 export class cameraCtr extends Component {
-    @property(Node)
-    scaleBg: Node;
 
     private cameraCom: Camera;
     private targetNode: Node;
@@ -28,6 +26,7 @@ export class cameraCtr extends Component {
         this.node.setPosition(0, 0);
         this.minOrthoHeight = DataManager.playerSetting.radius / DataManager.playerRatioInCanvas;
         this.maxOrthoHeight = DataManager.wallRadius  + 300;
+        this.startHeightTween(this.minOrthoHeight + 200,  DataManager.cameraTweenDuration / 2);
     }
 
     public endGame(): void {

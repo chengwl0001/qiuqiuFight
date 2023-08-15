@@ -1,4 +1,4 @@
-import { _decorator, Contact2DType, IPhysics2DContact, CircleCollider2D, Vec2, Vec3, Node } from 'cc';
+import { _decorator, Contact2DType, IPhysics2DContact, CircleCollider2D, Vec2 } from 'cc';
 import { baseBallPrefab } from './baseBallPrefab';
 import { obstacleCtr } from '../game/obstacleCtr';
 import { SETTING } from '../core/gameSetting';
@@ -21,7 +21,6 @@ export class obstaclePrefab extends baseBallPrefab {
     private obsStatus: SETTING.OBSTACLE_STATUS = SETTING.OBSTACLE_STATUS.NOTHING;
 
     public startActive(info: SETTING.BALL_INFO): void {
-        
         this.initAttribute(info);
         if(!info.velocity) {
             this.velocity = new Vec2(
@@ -49,6 +48,7 @@ export class obstaclePrefab extends baseBallPrefab {
     }
 
     private onStayContact(selfCollider: CircleCollider2D, otherCollider: CircleCollider2D, contact: IPhysics2DContact | null): void {
+        if(otherCollider.tag >= SETTING.BALL_TYPE.FIRE_BALL) return;
         let selfPosition: Vec2 = selfCollider.worldPosition;
         let otherPosition: Vec2 = otherCollider.worldPosition;
         let distance = Utils.caculateDistance(selfPosition, otherPosition);

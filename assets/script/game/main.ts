@@ -1,13 +1,14 @@
-import { _decorator, Component, view, screen } from 'cc';
-import { obstacleCtr } from './obstacleCtr';
-import { playerCtr } from './playerCtr';
-import { wallCtr } from './wallCtr';
-import { cameraCtr } from './cameraCtr';
-import { SETTING } from '../core/gameSetting';
 import Utils from '../core/utils';
-import { DataManager, EventManager } from '../core/global';
-import { phyiscalCtr } from './phyiscalCtr';
+import { uiCtr } from './uiCtr';
+import { wallCtr } from './wallCtr';
+import { SETTING } from '../core/gameSetting';
 import { clickCtr } from './clickCtr';
+import { cameraCtr } from './cameraCtr';
+import { playerCtr } from './playerCtr';
+import { obstacleCtr } from './obstacleCtr';
+import { phyiscalCtr } from './phyiscalCtr';
+import { DataManager, EventManager } from '../core/global';
+import { _decorator, Component, view, director, Slider } from 'cc';
 
 const { ccclass, property } = _decorator;
 
@@ -25,6 +26,9 @@ export class main extends Component {
     @property(cameraCtr)
     public cameraCtr: cameraCtr;
 
+    @property(uiCtr)
+    public uiCtr: uiCtr;
+
     private phyiscalCtr: phyiscalCtr;
     private clickCtr: clickCtr;
     start() {
@@ -32,19 +36,21 @@ export class main extends Component {
         DataManager.canvasPixelSize = view.getVisibleSizeInPixel();
         DataManager.canvasSize = view.getVisibleSize();
         this.controlInit();
-        setTimeout(() => {
-            this.gameStart();
-        },1000)
+        // setTimeout(() => {
+        //     this.gameStart();
+        // },1000)
 
     }
 
     private controlInit(): void {
+        this.uiCtr.init();
         this.cameraCtr?.initCamera();
         this.obstacleCtr?.initObs();
         this.wallCtr?.initWall();
         this.playerCtr?.initPlayer(this);
         this.phyiscalCtr = new phyiscalCtr(this);
         this.clickCtr = new clickCtr(this);
+        this.gameStart();
     }
 
     private gameStart(): void {
@@ -52,28 +58,44 @@ export class main extends Component {
         DataManager.gameLevel = SETTING.GAME_LEVEL.LEVEL_1;
         Utils.setSettingByLevel(DataManager.gameLevel);
 
-        EventManager.once(SETTING.GAME_EVENT_TYPE.GAME_OVER, this.gameOver, this);
+        EventManager.once(SETTING.GAME_STATUS_TYPE.GAME_LOSE, this.gameLose, this);
+        EventManager.once(SETTING.GAME_STATUS_TYPE.GAME_WIN, this.gameWin, this);
 
         DataManager.gameStatus = SETTING.GAME_STATUS.GAMING;
+        this.uiCtr.startGame();
         this.obstacleCtr?.startGame();
         this.wallCtr?.startGame();
         this.playerCtr?.startGame();
         this.cameraCtr.startGame();
         this.clickCtr?.startGame();
+        this.phyiscalCtr?.setPhyiscal();
     }
 
     public gamePause(): void {
         DataManager.gameStatus = SETTING.GAME_STATUS.PAUSE;
         this.phyiscalCtr?.pausePhysical();
+        this.uiCtr.pauseGame();
     }
 
     public gameRestart(): void {
         DataManager.gameStatus = SETTING.GAME_STATUS.GAMING;
         this.phyiscalCtr?.startPhysical();
+        this.uiCtr.startGame();
     }
 
-    public gameOver(): void {
-        Utils.initLog('game over');
+    private gameLose(): void {
+        Utils.initLog('game lose');
+        this.uiCtr.loseGame();
+        this.gameOver();
+    }
+
+    private gameWin(): void {
+        Utils.initLog('game win');
+        this.uiCtr.winGame();
+        this.gameOver();
+    }
+
+    private gameOver(): void {
         DataManager.gameStatus = SETTING.GAME_STATUS.OVER;
 
         this.playerCtr?.endGame();
@@ -82,8 +104,15 @@ export class main extends Component {
         this.cameraCtr?.endGame();
     }
 
+    public changePhysicalSpeed(event: Slider): void {
+        console.log(event.progress)
+    }
+
+    public backHome(): void {
+        director.loadScene('home');
+    }
+
     update(deltaTime: number) {
-        
     }
 }
 
