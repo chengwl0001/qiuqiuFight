@@ -37,6 +37,7 @@ export class playerCtr extends obstacleCtr {
     }
 
     public endGame(): void {
+        this.playerBall.removeFromParent();
         this.playerCom.recycleSelf();
     }
 
